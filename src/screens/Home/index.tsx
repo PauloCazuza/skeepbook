@@ -12,7 +12,7 @@ export default function Home() {
     <View style={styles.container}>
       <Gradient />
       <Button title="Cadastrar Pesagem" onPress={() => navigation.navigate("NewSheep")} />
-      <Button title="Visualizar Pesagens" onPress={() => Alert.alert("Clicou")} />
+      <Button title="Visualizar Pesagens" onPress={() => navigation.navigate("Sheeps")} />
     </View>
   );
 }

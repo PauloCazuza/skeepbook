@@ -20,7 +20,7 @@ function TextInputCustom({
       <FormControl isInvalid={false} w="75%" maxW="300px">
         <FormControl.Label>{label}</FormControl.Label>
         <Input
-          value={value.toString()}
+          value={value?.toString()}
           keyboardType={keyboardType}
           {...rest}
           onChangeText={onChangeText}

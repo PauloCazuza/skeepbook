@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface Sheep {
     id?: string;
     numero?: number;
@@ -5,4 +7,5 @@ export interface Sheep {
     peso: string;
     ECC: string;
     famacha: string;
+    dataDaPesagem: Date;
 }
