@@ -4,10 +4,15 @@ import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./styles";
 import { colors } from "../../Assets/GlobalStyles";
 
-const Gradient = (): JSX.Element => {
+interface IGradientParams {
+  colorInitial?: string;
+  topColor?: boolean;
+}
+
+const Gradient = ({ colorInitial = colors.white, topColor = true }: IGradientParams): JSX.Element => {
   return (
     <LinearGradient
-      colors={[colors.white, "transparent"]}
+      colors={topColor ? [colorInitial, "transparent"] : ["transparent", colorInitial]}
       style={styles.background}
     />
   );

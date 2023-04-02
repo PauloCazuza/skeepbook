@@ -10,6 +10,9 @@ export const colors = {
   black: "#000",
   darkRed: "#961511",
   lightRed: "#FFCCCC",
+  darkBlue: "#2063B2",
+  lightBlue: "#3EF3FC",
+  lightOrange: "#F8B3AA"
 };
 
 export const globalStyles = StyleSheet.create({

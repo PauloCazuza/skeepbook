@@ -9,3 +9,8 @@ export interface Sheep {
     famacha: string;
     dataDaPesagem: Date;
 }
+
+export interface User {
+    id: string;
+    online?: boolean;
+}

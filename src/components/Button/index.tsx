@@ -10,8 +10,8 @@ const Button = ({
     onPress
 }: IButton) => {
     return (
-        <Box alignItems="center" my="2" width="100%">
-            <ButtonNB onPress={onPress} width="50%">
+        <Box alignItems="center" justifyContent="center" my="2" width="100%">
+            <ButtonNB onPress={onPress} width="50%" textAlign="center">
                 {title}
             </ButtonNB>
         </Box>
