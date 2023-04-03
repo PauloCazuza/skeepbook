@@ -16,7 +16,7 @@ const FormLogin = () => {
       setLoading(true);
       await LogIn(email, password);
       setLoading(false);
-    } catch (error) {
+    } catch (error: { message: string }) {
       setLoading(false);
       Alert.alert("Error", error.message);
     }

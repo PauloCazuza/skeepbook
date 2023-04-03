@@ -1,12 +1,12 @@
 import React, { createContext, useEffect, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { IUser } from "../interface";
 import { LoginDB } from "../service/auth";
 import { User } from "firebase/auth";
 
 interface IAuthContext {
   user?: User;
   LogIn(email: string, password: string): Promise<void>;
+  LogOut(): void;
 }
 
 export const AuthContext = createContext<IAuthContext>({} as IAuthContext);
@@ -27,9 +27,13 @@ export function AuthProvider({ children }: AuthProps) {
     }
   }
 
+  function LogOut() {
+    setUser(undefined);
+  }
+
   return (
     <AuthContext.Provider
-      value={{ user, LogIn }}
+      value={{ user, LogIn, LogOut }}
     >
       {children}
     </AuthContext.Provider>

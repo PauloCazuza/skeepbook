@@ -1,6 +1,6 @@
 import { Center, Heading, Image, Text, View } from "native-base";
 import { colors } from "../../assets/GlobalStyles";
-import IconTemporary from "../../Assets/icon-temporary.png";
+import IconTemporary from "../../assets/icon-temporary.png";
 import FormLogin from "../../components/FormLogin";
 import Gradient from "../../components/Gradient";
 import { styles } from "./styles";
