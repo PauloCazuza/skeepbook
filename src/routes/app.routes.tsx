@@ -1,19 +1,18 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import EditSheep from "../screens/EditSheep";
-
-import { User } from "../interface";
 //SCREENS
 import Home from "../screens/Home";
 import Login from "../screens/Login";
 import NewSheep from "../screens/NewSheep";
 import Sheeps from "../screens/Sheeps";
+import { AuthContext } from "../contexts/auth";
 
 
 const { Navigator, Screen } = createDrawerNavigator();
 
 function AppRoutes() {
-    const [user, setUser] = useState<User>();
+    const { user } = useContext(AuthContext);
 
     if (user) {
         return (
@@ -54,7 +53,6 @@ function AppRoutes() {
         );
     } else {
         return (
-
             <Navigator
                 screenOptions={{
                     headerShown: false

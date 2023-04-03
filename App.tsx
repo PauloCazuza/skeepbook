@@ -1,7 +1,9 @@
 import { NativeBaseProvider } from 'native-base';
 import { useEffect } from 'react';
+import { AuthProvider } from './src/contexts/auth';
 import Routes from './src/routes';
 import { app } from './src/service/configure';
+import FontsProvider from './src/components/Fonts';
 
 export default function App() {
 
@@ -14,8 +16,12 @@ export default function App() {
   }
 
   return (
-    <NativeBaseProvider>
-      <Routes />
-    </NativeBaseProvider>
+    <AuthProvider>
+      <NativeBaseProvider>
+        <FontsProvider>
+          <Routes />
+        </FontsProvider>
+      </NativeBaseProvider>
+    </AuthProvider>
   );
 }

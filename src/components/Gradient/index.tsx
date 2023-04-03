@@ -2,7 +2,7 @@
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./styles";
-import { colors } from "../../Assets/GlobalStyles";
+import { colors } from "../../assets/GlobalStyles";
 
 interface IGradientParams {
   colorInitial?: string;
