@@ -25,24 +25,30 @@ function Sheeps() {
 
     async function getAllSheeps() {
         setLoading(true);
-        const sheepsDB = await getSheepDB();
-        const aux: IAccordion = {
-            dataSheeps: []
+
+        try {
+            const sheepsDB = await getSheepDB();
+            const aux: IAccordion = {
+                dataSheeps: []
+            };
+
+            for (let i = 0; i < sheepsDB.length; i++) {
+                const dateAcualy = formatDateBR(sheepsDB[i].dataDaPesagem);
+                const indexData = aux.dataSheeps!.findIndex(x => x.date === dateAcualy);
+                if (indexData === -1)
+                    aux.dataSheeps!.push({
+                        date: dateAcualy,
+                        sheeps: [sheepsDB[i]]
+                    });
+                else
+                    aux.dataSheeps![indexData].sheeps.push(sheepsDB[i]);
+            }
+
+            setDataAccordion(aux);
+        }
+        catch (error) {
         };
 
-        for (let i = 0; i < sheepsDB.length; i++) {
-            const dateAcualy = formatDateBR(sheepsDB[i].dataDaPesagem);
-            const indexData = aux.dataSheeps!.findIndex(x => x.date === dateAcualy);
-            if (indexData === -1)
-                aux.dataSheeps!.push({
-                    date: dateAcualy,
-                    sheeps: [sheepsDB[i]]
-                });
-            else
-                aux.dataSheeps![indexData].sheeps.push(sheepsDB[i]);
-        }
-
-        setDataAccordion(aux);
         setLoading(false);
     }
 
@@ -52,30 +58,15 @@ function Sheeps() {
 
     return (
         <>
-            <Accordion dataSheeps={dataAccordion?.dataSheeps} />
-            {/* <View style={styles.container}>
-                <Gradient />
-                {
-                    loading ? (
-                        <ActivityIndicator size="large" />
-                    )
-                        :
-                        <>
-                            <Heading my="2">
-                                Lista de Pesagens
-                            </Heading>
-                            <FlatList
-                                data={dataAccordion}
-                                width="full"
-                                renderItem={({ item }) => {
-                                    return (
-                                        <SheepCard key={item} sheep={item} onPress={() => goEditSheep(item)} />
-                                    )
-                                }}
-                            />
-                        </>
-                }
-            </View> */}
+            {
+                !loading
+                    ?
+                    <Accordion
+                        dataSheeps={dataAccordion?.dataSheeps}
+                    />
+                    :
+                    <ActivityIndicator size="large" />
+            }
         </>
     );
 }

@@ -13,7 +13,7 @@ type TypeDiagnosisParam = { sheep: Sheep };
 
 export default function EditSheep() {
   const { params: sheepParam } = useRoute<RouteProp<TypeDiagnosisParam, "sheep">>();
-  const [sheep, setSheep] = useState<Sheep>({} as Sheep);
+  const [sheep, setSheep] = useState<Sheep>();
 
   useFocusEffect(
     useCallback(() => {
@@ -49,33 +49,33 @@ export default function EditSheep() {
         padding: 10,
       }}>
         <Heading size="lg" textAlign="center" >
-          {`Ovelha número ${sheep.numero}`}
+          {`Ovelha número ${sheep?.numero}`}
         </Heading>
         <Divider my={2} />
         <TextInputCustom
           value={sheep?.variedade}
           label="Variedade"
-          onChangeText={(value) => setSheep({ ...sheep, variedade: value })}
+          onChangeText={(value) => setSheep({ ...sheep!, variedade: value })}
         />
         <TextInputCustom
           value={sheep?.famacha}
           keyboardType={'decimal-pad'}
           label="Famacha"
-          onChangeText={(value) => setSheep({ ...sheep, famacha: value })}
+          onChangeText={(value) => setSheep({ ...sheep!, famacha: value })}
         />
         <TextInputCustom
           value={sheep?.ECC}
           keyboardType={'decimal-pad'}
           label="ECC"
-          onChangeText={(value) => setSheep({ ...sheep, ECC: value })}
+          onChangeText={(value) => setSheep({ ...sheep!, ECC: value })}
         />
         <TextInputCustom
           value={sheep?.peso}
           keyboardType={'decimal-pad'}
           label="Peso"
-          onChangeText={(value) => setSheep({ ...sheep, peso: value })}
+          onChangeText={(value) => setSheep({ ...sheep!, peso: value })}
         />
-        <Button title="Cadastrar ovelha" onPress={() => editSheep(sheep)} />
+        <Button title="Editar ovelha" onPress={() => editSheep(sheep!)} />
       </View>
     </View>
   );

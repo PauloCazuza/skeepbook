@@ -16,7 +16,7 @@ const { Navigator, Screen } = createDrawerNavigator();
 function AppRoutes() {
     const { user, LogOut } = useContext(AuthContext);
 
-    if (user) {
+    if (!user) {
         return (
             <Navigator
                 screenOptions={{

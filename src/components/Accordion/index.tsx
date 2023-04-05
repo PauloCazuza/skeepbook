@@ -3,6 +3,8 @@ import { List } from 'react-native-paper';
 import { Sheep } from '../../interface';
 import SheepCard from '../SheepCard';
 import { useNavigation } from '@react-navigation/native';
+import { ScrollView } from 'native-base';
+import { convertedDates } from '../../util/formatDate';
 
 export interface IAccordion {
   dataSheeps?: {
@@ -23,29 +25,30 @@ const Accordion = ({ dataSheeps = [] }: IAccordion) => {
 
   return (
     <List.Section title="Datas de pesagens">
-
-      {dataSheeps.map((dataSheep, index) => {
-        return (
-          <List.Accordion
-            title={dataSheep.date}
-            key={dataSheep.date}
-            left={(props: any) => <List.Icon {...props} icon="folder" />}
-            expanded={numberExpanded === index}
-            onPress={() => {
-              if (numberExpanded === index)
-                setNumberExpanded(-1);
-              else
-                setNumberExpanded(index);
-            }}
-          >
-            {
-              dataSheep.sheeps.map((item) => {
-                return <SheepCard key={item.id} sheep={item} onPress={() => goEditSheep(item)} />
-              })
-            }
-          </List.Accordion>
-        )
-      })}
+      <ScrollView>
+        {dataSheeps.sort((a, b) => convertedDates(b.date).getTime() - convertedDates(a.date).getTime()).map((dataSheep, index) => {
+          return (
+            <List.Accordion
+              title={dataSheep.date}
+              key={dataSheep.date}
+              left={(props: any) => <List.Icon {...props} icon="calendar" />}
+              expanded={numberExpanded === index}
+              onPress={() => {
+                if (numberExpanded === index)
+                  setNumberExpanded(-1);
+                else
+                  setNumberExpanded(index);
+              }}
+            >
+              {
+                dataSheep.sheeps.map((item) => {
+                  return <SheepCard key={item.id} sheep={item} onPress={() => goEditSheep(item)} />
+                })
+              }
+            </List.Accordion>
+          )
+        })}
+      </ScrollView>
     </List.Section>
   );
 };

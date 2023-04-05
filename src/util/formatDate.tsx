@@ -25,3 +25,9 @@ export function formatDateBR(data: Date): string {
 
   return `${dia}/${mes}/${ano}`;
 }
+
+// Converter strings em objetos Date
+export const convertedDates = (dateString: string) => {
+  const [day, month, year] = dateString.split('/');
+  return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+};

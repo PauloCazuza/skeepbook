@@ -11,7 +11,7 @@ interface ISheepCard {
 function SheepCard({ sheep, onPress }: ISheepCard) {
 
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onLongPress={onPress}>
       <Box alignItems="center" my="1" width="full" >
         <Box maxW="80" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _dark={{
           borderColor: "coolGray.600",
