@@ -2,6 +2,7 @@ export function formatDateAndHourBR(data: Date): string {
   if (!data)
     return "Data não omitida";
 
+  data = new Date(data);
   const dia = data.getDate().toString().padStart(2, '0');
   const mes = (data.getMonth() + 1).toString().padStart(2, '0');
   const ano = data.getFullYear().toString();
@@ -16,12 +17,10 @@ export function formatDateBR(data: Date): string {
   if (!data)
     return "Sem data";
 
+  data = new Date(data);
   const dia = data.getDate().toString().padStart(2, '0');
   const mes = (data.getMonth() + 1).toString().padStart(2, '0');
   const ano = data.getFullYear().toString();
-  const hora = data.getHours().toString().padStart(2, '0');
-  const minuto = data.getMinutes().toString().padStart(2, '0');
-  const segundo = data.getSeconds().toString().padStart(2, '0');
 
   return `${dia}/${mes}/${ano}`;
 }

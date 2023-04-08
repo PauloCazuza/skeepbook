@@ -4,16 +4,14 @@ import { SHEEP_COLLECTION } from "../storageConfig";
 import { sheepGetAll } from "./sheepsGetAll";
 import { Sheep } from "../../interface";
 
-export async function sheepCreate(newSheep: Sheep) {
+export async function sheepDeleteOf4Months() {
     try {
+        const last4Month = new Date();
+        last4Month.setMonth(-4);
         const storageSheeps = await sheepGetAll();
-        const SheepAlreadyExists = await storageSheeps.filter(sheep => sheep.numero === newSheep.numero).length > 0;
+        const Sheep4Months = await storageSheeps.filter(sheep => sheep.dataDaPesagem > last4Month);
 
-        if (SheepAlreadyExists) {
-            throw new AppError("Já existe uma ovelha com este número.");
-        }
-
-        const storage = JSON.stringify([...storageSheeps, newSheep]);
+        const storage = JSON.stringify(Sheep4Months);
         await AsyncStorage.setItem(SHEEP_COLLECTION, storage);
         return true;
     } catch (error) {

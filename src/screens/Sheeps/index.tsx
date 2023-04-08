@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { FlatList, Heading, Text } from "native-base";
 import Gradient from "../../components/Gradient";
@@ -9,25 +9,27 @@ import SheepCard from "../../components/SheepCard";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Accordion, { IAccordion } from "../../components/Accordion";
 import { formatDateBR } from "../../util/formatDate";
+import { ConnectionContext } from "../../contexts/Connection";
+import { sheepGetAll } from "../../storage/sheep/sheepsGetAll";
 
 
 
 function Sheeps() {
-    const navigation = useNavigation();
+    const { connection } = useContext(ConnectionContext);
     const [dataAccordion, setDataAccordion] = useState<IAccordion>();
     const [loading, setLoading] = useState<boolean>(false);
 
     useFocusEffect(
         useCallback(() => {
-            getAllSheeps();
-        }, [])
+            getAllSheeps(connection);
+        }, [connection])
     );
 
-    async function getAllSheeps() {
+    async function getAllSheeps(connection: boolean) {
         setLoading(true);
 
         try {
-            const sheepsDB = await getSheepDB();
+            const sheepsDB = await (connection ? getSheepDB() : sheepGetAll());
             const aux: IAccordion = {
                 dataSheeps: []
             };
@@ -50,10 +52,6 @@ function Sheeps() {
         };
 
         setLoading(false);
-    }
-
-    function goEditSheep(sheep: Sheep) {
-        navigation.navigate("EditSheep", sheep);
     }
 
     return (

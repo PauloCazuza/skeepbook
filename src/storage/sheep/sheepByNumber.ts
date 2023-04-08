@@ -8,6 +8,8 @@ export async function getSheepByNumber(sheepNumber: number) {
         const storageSheeps = await sheepGetAll();
         const SheepAlreadyExists = await storageSheeps.filter(sheep => sheep.numero === sheepNumber);
 
+        console.log(SheepAlreadyExists);
+
         if (SheepAlreadyExists.length === 0)
             return null;
 

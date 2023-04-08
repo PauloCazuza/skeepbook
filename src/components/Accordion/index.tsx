@@ -10,14 +10,12 @@ export interface IAccordion {
   dataSheeps?: {
     date: string;
     sheeps: Sheep[];
-  }[]
+  }[];
 }
 
 const Accordion = ({ dataSheeps = [] }: IAccordion) => {
   const navigation = useNavigation();
   const [numberExpanded, setNumberExpanded] = React.useState<number>(-1);
-
-  const handlePress = (number: number) => setNumberExpanded(number);
 
   function goEditSheep(sheep: Sheep) {
     navigation.navigate("EditSheep", sheep);

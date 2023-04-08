@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useContext } from 'react';
 import { Divider, Heading, ScrollView } from 'native-base';
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { Alert, View } from 'react-native';
@@ -9,8 +9,12 @@ import { Sheep } from '../../interface';
 import { addSheepDB, getSheepByNumberDB } from '../../service/sheep';
 import { styles } from './styles';
 import { formatDateBR } from '../../util/formatDate';
+import { ConnectionContext } from '../../contexts/Connection';
+import { sheepCreate } from '../../storage/sheep/sheepCreate';
+import { getSheepByNumber } from '../../storage/sheep/sheepByNumber';
 
 export default function NewSheep() {
+  const { connection } = useContext(ConnectionContext);
   const navigation = useNavigation();
   const [numberSheep, setNumberSheep] = useState<string>("");
   const [showCrud, setShowCrud] = useState<boolean>(false);
@@ -35,7 +39,7 @@ export default function NewSheep() {
   }
 
   async function getSheepOfNumber(NumberOfSheep: number) {
-    const dataSheep = await getSheepByNumberDB(NumberOfSheep);
+    const dataSheep = await (connection ? getSheepByNumberDB(NumberOfSheep) : getSheepByNumber(NumberOfSheep));
     const today = formatDateBR(new Date());
 
     if (dataSheep && formatDateBR(dataSheep.dataDaPesagem) === today)
@@ -51,7 +55,7 @@ export default function NewSheep() {
 
   async function addSheep(sheepObj: Sheep) {
     sheepObj.numero = sheepObj.numero || Number(numberSheep);
-    const valid = await addSheepDB(sheepObj);
+    const valid = await (connection ? addSheepDB(sheepObj) : sheepCreate(sheepObj));
 
     if (valid) {
       Alert.alert("Sucesso");
