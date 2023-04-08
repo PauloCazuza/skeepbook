@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { LoginDB } from "../service/auth";
+import { LoginDB } from "../../service/auth";
 import { User } from "firebase/auth";
 
 interface IAuthContext {

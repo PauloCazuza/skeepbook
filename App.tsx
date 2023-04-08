@@ -1,9 +1,10 @@
 import { NativeBaseProvider } from 'native-base';
 import { useEffect } from 'react';
-import { AuthProvider } from './src/contexts/auth';
+import { AuthProvider } from './src/contexts/Auth/auth';
 import Routes from './src/routes';
 import { app } from './src/service/configure';
 import FontsProvider from './src/components/Fonts';
+import { ConnectionProvider } from './src/contexts/Connection';
 
 export default function App() {
 
@@ -16,12 +17,14 @@ export default function App() {
   }
 
   return (
-    <AuthProvider>
-      <NativeBaseProvider>
-        <FontsProvider>
-          <Routes />
-        </FontsProvider>
-      </NativeBaseProvider>
-    </AuthProvider>
+    <ConnectionProvider>
+      <AuthProvider>
+        <NativeBaseProvider>
+          <FontsProvider>
+            <Routes />
+          </FontsProvider>
+        </NativeBaseProvider>
+      </AuthProvider>
+    </ConnectionProvider>
   );
 }

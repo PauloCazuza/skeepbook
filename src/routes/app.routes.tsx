@@ -7,7 +7,7 @@ import Home from "../screens/Home";
 import Login from "../screens/Login";
 import NewSheep from "../screens/NewSheep";
 import Sheeps from "../screens/Sheeps";
-import { AuthContext } from "../contexts/auth";
+import { AuthContext } from "../contexts/Auth/auth";
 import { MaterialIcons } from "@expo/vector-icons";
 
 
@@ -16,7 +16,7 @@ const { Navigator, Screen } = createDrawerNavigator();
 function AppRoutes() {
     const { user, LogOut } = useContext(AuthContext);
 
-    if (!user) {
+    if (user) {
         return (
             <Navigator
                 screenOptions={{

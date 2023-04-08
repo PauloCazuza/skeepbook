@@ -1,15 +1,17 @@
 import { useState, useCallback } from 'react';
 import { Divider, Heading, ScrollView } from 'native-base';
-import { RouteProp, useFocusEffect, useRoute } from '@react-navigation/native';
+import { RouteProp, useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { Alert, View } from 'react-native';
 import Button from '../../components/Button';
 import Gradient from '../../components/Gradient';
 import TextInputCustom from '../../components/TextInput';
 import { Sheep } from '../../interface';
-import { addSheepDB } from '../../service/sheep';
+import { addSheepDB, getSheepByNumberDB } from '../../service/sheep';
 import { styles } from './styles';
+import { formatDateBR } from '../../util/formatDate';
 
 export default function NewSheep() {
+  const navigation = useNavigation();
   const [numberSheep, setNumberSheep] = useState<string>("");
   const [showCrud, setShowCrud] = useState<boolean>(false);
   const [sheep, setSheep] = useState<Sheep>({} as Sheep);
@@ -32,12 +34,29 @@ export default function NewSheep() {
     } as Sheep);
   }
 
+  async function getSheepOfNumber(NumberOfSheep: number) {
+    const dataSheep = await getSheepByNumberDB(NumberOfSheep);
+    const today = formatDateBR(new Date());
+
+    if (dataSheep && formatDateBR(dataSheep.dataDaPesagem) === today)
+      return Alert.alert("Ooops!", "O Número dessa ovelha já foi registrada na data de hoje, em caso de ajuste vá até a tela de pesagens.")
+
+    if (dataSheep)
+      dataSheep.dataDaPesagem = new Date();
+
+    if (dataSheep)
+      setSheep(dataSheep);
+    setShowCrud(!showCrud);
+  }
+
   async function addSheep(sheepObj: Sheep) {
     sheepObj.numero = sheepObj.numero || Number(numberSheep);
     const valid = await addSheepDB(sheepObj);
 
-    if (valid)
+    if (valid) {
       Alert.alert("Sucesso");
+      navigation.navigate("Home");
+    }
     else
       Alert.alert("Erro");
   }
@@ -54,7 +73,7 @@ export default function NewSheep() {
               keyboardType="decimal-pad"
               onChangeText={(value) => setNumberSheep(value)}
             />
-            <Button title="Buscar" onPress={() => setShowCrud(!showCrud)} />
+            <Button title="Buscar" onPress={() => getSheepOfNumber(Number.parseInt(numberSheep))} />
           </View>
         )
       }

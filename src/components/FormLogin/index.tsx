@@ -3,7 +3,7 @@ import { Button, Icon, Input, Pressable, Stack, Text, View } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { ActivityIndicator, Alert } from "react-native";
 import { colors } from "../../assets/GlobalStyles";
-import { AuthContext } from "../../contexts/auth";
+import { AuthContext } from "../../contexts/Auth/auth";
 
 const FormLogin = () => {
   const [email, setEmail] = useState<string>("");
