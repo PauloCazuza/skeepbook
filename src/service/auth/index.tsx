@@ -3,10 +3,10 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, Us
 export async function LoginDB(email: string, password: string) {
   const auth = getAuth();
   let user: User | undefined = undefined;
-  await signInWithEmailAndPassword(auth, email, password)
+  user = await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
-      user = userCredential.user;
+      return user = userCredential.user;
       // ...
     })
     .catch((error) => {

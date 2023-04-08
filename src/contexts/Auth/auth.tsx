@@ -1,7 +1,10 @@
 import React, { createContext, useEffect, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LoginDB } from "../../service/auth";
-import { User } from "firebase/auth";
+import { User, deleteUser } from "firebase/auth";
+import { getUser } from "../../storage/auth/getuser";
+import { UserCreate } from "../../storage/auth/createUser";
+import { UserDelete } from "../../storage/auth/deleteUser";
 
 interface IAuthContext {
   user?: User;
@@ -18,9 +21,23 @@ type AuthProps = {
 export function AuthProvider({ children }: AuthProps) {
   const [user, setUser] = useState<User>();
 
+  useEffect(() => {
+    AuthOfflineStorage();
+  }, []);
+
+  async function AuthOfflineStorage() {
+    const authOffline = await getUser();
+
+    if (authOffline) {
+      setUser(authOffline);
+    }
+  }
+
   async function LogIn(email: string, password: string) {
     try {
       const userAux = await LoginDB(email, password);
+      if (userAux)
+        UserCreate(userAux);
       setUser(userAux);
     } catch (error) {
       throw error;
@@ -29,6 +46,7 @@ export function AuthProvider({ children }: AuthProps) {
 
   function LogOut() {
     setUser(undefined);
+    UserDelete();
   }
 
   return (

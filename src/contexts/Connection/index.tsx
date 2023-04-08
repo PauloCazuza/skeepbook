@@ -24,8 +24,6 @@ export function ConnectionProvider({ children }: IConnectionProps) {
       console.log('Connection type', state.type);
       console.log('Is connected?', state.isConnected);
 
-      Alert.alert("status", "Is connected? " + state.isConnected);
-
       setConnection(state.isConnected === true);
     });
   }

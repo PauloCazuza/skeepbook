@@ -2,6 +2,8 @@ import { useState, useContext } from "react";
 import { Button, Icon, Text } from "native-base";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import EditSheep from "../screens/EditSheep";
+import { ConnectionContext } from "../contexts/Connection";
+
 //SCREENS
 import Home from "../screens/Home";
 import Login from "../screens/Login";
@@ -14,6 +16,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 const { Navigator, Screen } = createDrawerNavigator();
 
 function AppRoutes() {
+    const { connection } = useContext(ConnectionContext);
     const { user, LogOut } = useContext(AuthContext);
 
     if (user) {
@@ -28,7 +31,7 @@ function AppRoutes() {
                     component={Home}
                     options={{
                         title: "Inicio",
-                        headerRight: () => (
+                        headerRight: connection ? () => (
                             <Icon
                                 as={<MaterialIcons name="logout" color="red" />}
                                 size={7}
@@ -37,7 +40,7 @@ function AppRoutes() {
                                 ml="2"
                                 color="green.700"
                             />
-                        ),
+                        ) : undefined,
                     }}
                 />
                 <Screen
