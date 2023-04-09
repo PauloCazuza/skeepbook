@@ -4,7 +4,7 @@ import { Alert } from "react-native";
 import { sheepGetAll, sheepGetAllNotSend } from "../../storage/sheep/sheepsGetAll";
 import { addSheepDB } from "../../service/sheep";
 import { sheepDeleteOf4Months } from "../../storage/sheep/sheepDeleteOfLast4Months";
-import { sheepUpdate } from "../../storage/sheep/sheepUpdate";
+import { sheepCreateSentArray, sheepDeletNotSent } from "../../storage/sheep/sheepCreate";
 
 interface IConnectionContext {
   connection: boolean;
@@ -34,6 +34,7 @@ export function ConnectionProvider({ children }: IConnectionProps) {
       console.log('Is connected?', state.isConnected);
 
       setConnection(state.isConnected === true);
+      // setConnection(false);
     });
   }
 
@@ -42,14 +43,13 @@ export function ConnectionProvider({ children }: IConnectionProps) {
     try {
       if (sheepsOffline.length > 0) {
         sheepsOffline.forEach(async element => {
-          // addSheepDB(element);
+          await addSheepDB(element);
         });
       }
 
       if (sheepsOffline.length > 0) {
-        sheepsOffline.forEach(async element => {
-          await sheepUpdate({ ...element, enviada: true })
-        });
+        await sheepCreateSentArray(sheepsOffline);
+        await sheepDeletNotSent();
       }
 
       if (sheepsOffline.length > 0) {

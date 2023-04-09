@@ -10,7 +10,7 @@ import { addSheepDB, getSheepByNumberDB } from '../../service/sheep';
 import { styles } from './styles';
 import { formatDateBR } from '../../util/formatDate';
 import { ConnectionContext } from '../../contexts/Connection';
-import { sheepCreate } from '../../storage/sheep/sheepCreate';
+import { sheepCreateNotSent } from '../../storage/sheep/sheepCreate';
 import { getSheepByNumber } from '../../storage/sheep/sheepByNumber';
 
 export default function NewSheep() {
@@ -55,7 +55,7 @@ export default function NewSheep() {
 
   async function addSheep(sheepObj: Sheep) {
     sheepObj.numero = sheepObj.numero || Number(numberSheep);
-    const valid = await (connection ? addSheepDB(sheepObj) : sheepCreate(sheepObj));
+    const valid = await (connection ? addSheepDB(sheepObj) : sheepCreateNotSent(sheepObj));
 
     if (valid) {
       Alert.alert("Sucesso");

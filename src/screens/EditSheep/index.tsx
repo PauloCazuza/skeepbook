@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useContext } from 'react';
 import { Divider, Heading, ScrollView } from 'native-base';
 import { RouteProp, useFocusEffect, useRoute } from '@react-navigation/native';
 import { Alert, View } from 'react-native';
@@ -6,12 +6,15 @@ import Button from '../../components/Button';
 import Gradient from '../../components/Gradient';
 import TextInputCustom from '../../components/TextInput';
 import { Sheep } from '../../interface';
-import { updateSheepDB } from '../../service/sheep';
+import { deleteSheepDB, updateSheepDB } from '../../service/sheep';
 import { styles } from './styles';
+import { ConnectionContext } from '../../contexts/Connection';
+import { sheepEditNotSent } from '../../storage/sheep/sheepUpdate';
 
 type TypeDiagnosisParam = { sheep: Sheep };
 
 export default function EditSheep() {
+  const { connection } = useContext(ConnectionContext);
   const { params: sheepParam } = useRoute<RouteProp<TypeDiagnosisParam, "sheep">>();
   const [sheep, setSheep] = useState<Sheep>();
 
@@ -28,7 +31,16 @@ export default function EditSheep() {
   }
 
   async function editSheep(sheepObj: Sheep) {
-    const valid = await updateSheepDB(sheepObj);
+    const valid = await (connection ? updateSheepDB(sheepObj) : sheepEditNotSent(sheepObj));
+
+    if (valid)
+      Alert.alert("Sucesso");
+    else
+      Alert.alert("Erro");
+  }
+
+  async function deleteSheep(sheepObj: Sheep) {
+    const valid = await deleteSheepDB(sheepObj);
 
     if (valid)
       Alert.alert("Sucesso");
@@ -76,6 +88,9 @@ export default function EditSheep() {
           onChangeText={(value) => setSheep({ ...sheep!, peso: value })}
         />
         <Button title="Editar ovelha" onPress={() => editSheep(sheep!)} />
+        {
+          connection && <Button title="Excluir ovelha" onPress={() => deleteSheep(sheep!)} />
+        }
       </View>
     </View>
   );
