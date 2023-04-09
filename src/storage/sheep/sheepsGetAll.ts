@@ -49,7 +49,7 @@ export async function sheepGetAllNotSend() {
 
 export async function sheepGetAllSend() {
     try {
-        let storageSent = (await AsyncStorage.getItem(SHEEP_COLLECTION_NOT_SENT));
+        let storageSent = (await AsyncStorage.getItem(SHEEP_COLLECTION_SENT));
         let sheepSent: Sheep[] = storageSent ? JSON.parse(storageSent) : [];
 
         let sheep = sheepSent;

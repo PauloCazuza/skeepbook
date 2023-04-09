@@ -47,7 +47,7 @@ export async function sheepCreateSent(newSheep: Sheep) {
 export async function sheepCreateSentArray(newSheepArray: Sheep[]) {
     try {
         let storageSheeps = await sheepGetAllSend();
-        storageSheeps.concat(newSheepArray);
+        storageSheeps = storageSheeps.concat(newSheepArray);
 
         const storage = JSON.stringify([...storageSheeps]);
         await AsyncStorage.setItem(SHEEP_COLLECTION_SENT, storage);
